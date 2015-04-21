@@ -154,8 +154,8 @@ gulp.task('vendor-styles', function() {
       paths.vendor + 'styles/jquery-ui.structure.css',
       paths.vendor + 'styles/jquery-ui.css',
       paths.vendor + 'styles/jquery-ui.theme.css',
-      paths.vendor + 'backgrid/lib/backgrid.css',
-      paths.vendor + 'backgrid-paginator/backgrid-paginator.css',
+      paths.node + 'backgrid/lib/backgrid.css',
+      paths.node + 'backgrid-paginator/backgrid-paginator.css',
       paths.vendor + 'styles/bootstrap-theme.css.map',
       paths.vendor + 'styles/bootstrap-theme.css',
       paths.vendor + 'styles/bootstrap.css',
@@ -171,6 +171,9 @@ gulp.task('vendor-styles', function() {
   .pipe(gulp.dest(paths.dest + 'css/'));
 
   //vendor's style images
+  gulp.src(paths.vendor + "styles/images/*")
+    .pipe(plumber())
+    .pipe(gulp.dest(paths.dest + "css/images/"));
 });
 
 gulp.task('vendor-scripts', function() {
@@ -187,8 +190,8 @@ gulp.task('vendor-scripts', function() {
         paths.vendor + 'scripts/backbone.syphon.js',
         paths.vendor + 'scripts/backbone.picky.js',
         paths.vendor + 'scripts/backbone.localStorage.js',
-        paths.vendor + 'backgrid/lib/backgrid.js',
-        paths.vendor + 'backgrid-paginator/backgrid-paginator.js',
+        paths.node + 'backgrid/lib/backgrid.js',
+        paths.node + 'backgrid-paginator/backgrid-paginator.js',
     ])
     .pipe(plumber())
     .pipe(sourcemaps.init())
@@ -203,7 +206,7 @@ gulp.task('vendor-scripts', function() {
 });
 /*/Vendors--------------------*/
 gulp.task('vendor', ['vendor-styles', 'vendor-scripts', 'assets']);
-gulp.task('default', ['markup', 'styles']);
+gulp.task('default', ['markup', 'styles', 'vendor']);
 
 
 // Usage--------------------------------
