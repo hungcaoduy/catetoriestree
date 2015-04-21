@@ -1,5 +1,5 @@
-var isOffline = true;
-// var isOffline = false;
+// var isOffline = true;
+var isOffline = false;
 var options =  {
     isOffline: isOffline,
     itemUrl: function() {

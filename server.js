@@ -106,7 +106,7 @@ app.delete( '/api/items/:id', function( request, response ) {
     });
 });
 //connect to database
-mongoose.connect('mongodb://localhost/links_database');
+mongoose.connect('mongodb://localhost/mylinks_database');
 
 //schemas
 var Keywords = new mongoose.Schema({

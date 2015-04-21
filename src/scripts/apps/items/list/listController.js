@@ -36,7 +36,7 @@ module.exports = {
         $.when(fetchingItems).done(function(items){
             console.log('item:', items);
             var common = require('scripts/entities/common');
-            var filteredItems = new common.FilteredCollection({
+            /*var filteredItems = new common.FilteredCollection({
                 collection: items,
                 filterFunction: function(filterCriterion) {
                     var criterion = filterCriterion.toLowerCase();
@@ -47,7 +47,7 @@ module.exports = {
                         }
                     };
                 }
-            });
+            });*/
             var itemListView = new View.Items({collection: items});
             // var itemListView = new View.Items({collection: filteredItems});
             // var itemListView = new View.Grid({collection: items});
@@ -67,11 +67,11 @@ module.exports = {
             /*panelView.on('item:filter', function(criterion) {
                 filteredItems.filter(criterion);
                 console.log('items is filtered');
-            });*/
+            });
 
             itemListView.listenTo(panelView, 'item:filter', function(criterion) {
                 filteredItems.filter(criterion);
-            });
+            });*/
 
             listViewPrepared.resolve(itemListView);
         });

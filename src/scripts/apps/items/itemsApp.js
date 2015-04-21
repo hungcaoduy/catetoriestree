@@ -122,10 +122,11 @@ App.on('start', function(){
         Backbone.history.start();
         if(App.getCurrentRoute() === ''){
             globalItemChannel.commands.execute('list:items');
+
         }
 
-        var header = require('scripts/apps/header/list/listController');
-        header.listHeader();
+        // var header = require('scripts/apps/header/list/listController');
+        // header.listHeader();
     }
 });
 

@@ -41,7 +41,7 @@ var ItemCollection = Backbone.PageableCollection.extend({
     mode: 'client',
     state: {
         firstPage: 0,
-        pageSize: 2,
+        pageSize: 3,
         currentPage: 0
     },
     hasPrevious: function() {
@@ -76,10 +76,10 @@ if (Options.isOffline) {
 var initializeItems = function(){
     console.log('initializing data');
     var items = new ItemCollection([
-        {_id: 1, title: 'JavaScript', description: 'Unknown', url: 'Unknown', image: 'img/placeholder.jpg', keywords: 'No ne', effectiveDate: new Date(2015,02,01).getTime(), createdDate: new Date(2015,02,01).getTime(), createdBy: 'Unknown', updatedDate: new Date(2015,02,01).getTime(), updatedBy: 'Unknown' },
-        {_id: 2, title: 'Backbone', description: 'Unknown', url: 'Unknown', image: 'img/placeholder.jpg', keywords: 'N one', effectiveDate: new Date(2015,02,01).getTime(), createdDate: new Date(2015,02,01).getTime(), createdBy: 'Unknown', updatedDate: new Date(2015,02,01).getTime(), updatedBy: 'Unknown' },
-        {_id: 3, title: 'Marionette', description: 'Unknown', url: 'Unknown', image: 'img/placeholder.jpg', keywords: 'Non e', effectiveDate: new Date(2015,02,01).getTime(), createdDate: new Date(2015,02,01).getTime(), createdBy: 'Unknown', updatedDate: new Date(2015,02,01).getTime(), updatedBy: 'Unknown' },
-        {_id: 4, title: 'Gulp', description: 'Unknown', url: 'Unknown', image: 'img/placeholder.jpg', keywords: 'yes i am', effectiveDate: new Date(2015,02,01).getTime(), createdDate: new Date(2015,02,01).getTime(), createdBy: 'Unknown', updatedDate: new Date(2015,02,01).getTime(), updatedBy: 'Unknown' }
+        {id: 1, title: 'JavaScript', description: 'Unknown', url: 'Unknown', image: 'img/placeholder.jpg', keywords: 'No ne', effectiveDate: new Date(2015,02,01).getTime(), createdDate: new Date(2015,02,01).getTime(), createdBy: 'Unknown', updatedDate: new Date(2015,02,01).getTime(), updatedBy: 'Unknown' },
+        {id: 2, title: 'Backbone', description: 'Unknown', url: 'Unknown', image: 'img/placeholder.jpg', keywords: 'N one', effectiveDate: new Date(2015,02,01).getTime(), createdDate: new Date(2015,02,01).getTime(), createdBy: 'Unknown', updatedDate: new Date(2015,02,01).getTime(), updatedBy: 'Unknown' },
+        {id: 3, title: 'Marionette', description: 'Unknown', url: 'Unknown', image: 'img/placeholder.jpg', keywords: 'Non e', effectiveDate: new Date(2015,02,01).getTime(), createdDate: new Date(2015,02,01).getTime(), createdBy: 'Unknown', updatedDate: new Date(2015,02,01).getTime(), updatedBy: 'Unknown' },
+        {id: 4, title: 'Gulp', description: 'Unknown', url: 'Unknown', image: 'img/placeholder.jpg', keywords: 'yes i am', effectiveDate: new Date(2015,02,01).getTime(), createdDate: new Date(2015,02,01).getTime(), createdBy: 'Unknown', updatedDate: new Date(2015,02,01).getTime(), updatedBy: 'Unknown' }
     ]);
     items.forEach(function(item){
         item.save();

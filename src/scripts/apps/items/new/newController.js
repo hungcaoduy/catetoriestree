@@ -11,6 +11,11 @@ module.exports = {
                 itemView = new View.Item({
                     model: item
                 });
+                itemView.on('item:save', function(data) {
+                    console.log('data to save ', data);
+                    data.model.set(data.data);
+                    data.model.save();
+                });
                 globalItemChannel.commands.execute('show:dialog', itemView);
             } else {
                 console.log('Item could not be resolved');
