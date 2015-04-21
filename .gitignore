@@ -7,6 +7,7 @@
 **/.sass-cache/
 **/node_modules/
 **/out/
+**/public/
 # =====================================
 docpad/src/files/vendor/*
 !docpad/src/files/vendor/bootstrap/

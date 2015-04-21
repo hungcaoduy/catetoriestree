@@ -1,0 +1,26 @@
+form#addItem(action="#").form-horizontal
+    div.form-group
+        label(for="image").col-sm-4.control-label Image:
+        div.col-sm-8
+            span#image(name="image", type="file").form-control
+    div.form-group
+        label(for="title").col-sm-4.control-label Title
+        div.col-sm-8
+            span#title.form-control.col-sm-8= title
+    div.form-group
+        label(for="effectiveDate").col-sm-4.control-label effective date
+        div.col-sm-8
+            span#effectiveDate.form-control=$.format.date(effectiveDate, 'dd/mm/yy')
+    div.form-group
+        label(for="description").col-sm-4.control-label Description:
+        div.col-sm-8
+            span#description.form-control=description
+    div.form-group
+        label(for="keywords").col-sm-4.control-label Keywords:
+        div.col-sm-8
+            each value in keywords
+                =value
+div.actions
+    div.col-sm-offset-4.col-sm-8
+        button.js-back.btn.btn-default Back
+        button.js-edit.btn.btn-default Edit

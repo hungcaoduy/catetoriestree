@@ -1,0 +1,22 @@
+form#addItem(action="#").form-horizontal
+    div.form-group
+        label(for="title").col-sm-4.control-label Title
+        div.col-sm-8
+            input#title(name="title", type="text", value = title).form-control.col-sm-8
+    div.form-group
+        label(for="effectiveDate").col-sm-4.control-label effective date
+        div.col-sm-8
+            input#effectiveDate(name="effectiveDate", type="text", value=effectiveDate).form-control
+    div.form-group
+        label(for="description").col-sm-4.control-label Description:
+        div.col-sm-8
+            input#description(name="description", type="text", value=description).form-control
+    div.form-group
+        label(for="image").col-sm-4.control-label Image:
+        div.col-sm-8
+            input#image(name="image", type="file").form-control
+div.actions
+    div.col-sm-offset-4.col-sm-8
+        button.js-save.btn.btn-default Save
+        button.js-save-close.btn.btn-default Save &amp close
+        button.js-cancel.btn.btn-default Cancel
