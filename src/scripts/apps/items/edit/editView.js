@@ -9,9 +9,6 @@ View.MissingItem = Marionette.ItemView.extend({
 
 View.Item = CommonView.Form.extend({
     title: 'Edit item',
-    onAttach: function(e) {
-    	$('#effectiveDate').datepicker({dateFormat: 'dd/mm/yy'});   
-    }
 });
 
 module.exports = View;

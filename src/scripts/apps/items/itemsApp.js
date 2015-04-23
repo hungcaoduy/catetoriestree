@@ -108,7 +108,7 @@ globalItemChannel.commands.setHandler('show:header', function(view) {
 
 globalItemChannel.commands.setHandler('go:back', function() {
     window.history.back();
-})
+});
 
 App.addInitializer(function() {
     new App.Router({
@@ -125,8 +125,8 @@ App.on('start', function(){
 
         }
 
-        // var header = require('scripts/apps/header/list/listController');
-        // header.listHeader();
+        var header = require('scripts/apps/header/list/listController');
+        header.listHeader();
     }
 });
 

@@ -10,7 +10,7 @@ form#addItem(action="#").form-horizontal
     div.form-group
         label(for="effectiveDate").col-sm-4.control-label effective date
         div.col-sm-8
-            input#effectiveDate(name="effectiveDate", type="text", value=$.format.date(effectiveDate, 'dd/MM/yy')).form-control
+            input#effectiveDate(name="effectiveDate", type="datetext", value=effectiveDate).form-control
     div.form-group
         label(for="description").col-sm-4.control-label Description:
         div.col-sm-8
@@ -21,6 +21,6 @@ form#addItem(action="#").form-horizontal
             input#keywords(name="keywords", type="text", value=keywords).form-control
 div.actions
     div.col-sm-offset-4.col-sm-8
-        button.js-save.btn.btn-default Save
+        button.js-save.btn.btn-default Save &amp add
         button.js-save-close.btn.btn-default Save &amp close
         button.js-cancel.btn.btn-default Cancel

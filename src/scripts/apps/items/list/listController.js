@@ -1,11 +1,12 @@
 View = require('./listView');
+CommonView = require('scripts/common/views');
 module.exports = {
     listItems: function(criteria) {
         var itemChannel = require('scripts/entities/item');
         var fetchingItems = itemChannel.reqres.request("item:entities");
         var globalItemChannel = window.globalItemChannel;
         var layoutView = new View.Layout();
-        var panelView = new View.Panel();
+        var panelView = new CommonView.Panel();
         var listViewPrepared = $.Deferred();
         var layoutViewShown = $.Deferred();
 

@@ -1,7 +1,6 @@
 
 var ItemRowTpl = require('./templates/itemRow.jade');
 var ItemTableTpl = require('./templates/itemTable.jade');
-var PanelTpl = require('./templates/panel.jade');
 var LayoutTpl = require('./templates/layout.jade');
 var GridTpl = require('./templates/grid.jade');
 var View = {};
@@ -27,6 +26,13 @@ View.Item = Marionette.ItemView.extend({
     },
     onRender: function() {
         // console.log('rendering childView', this.model);
+    },
+    serializeData: function() {
+        var moment = require('moment');
+        var options = require('scripts/apps/config/options');
+        var data = Backbone.Marionette.ItemView.prototype.serializeData.apply(this, arguments);
+        data.effectiveDate = moment.utc(data.effectiveDate).local().format(options.dateFormat);
+        return data;
     }
 });
 
@@ -38,6 +44,9 @@ View.Items = Marionette.CompositeView.extend({
     childViewContainer: 'tbody',
     ui: {
         paginator: '.js-paginator'
+    },
+    initialize: function(options) {
+        // this.listenTo('')
     },
     onRenderCollection: function() {
         this.showPaginator(this.collection);
@@ -73,46 +82,11 @@ View.Grid = Marionette.ItemView.extend({
         this.ui.paginator.empty();
         this.ui.grid.empty();
         if (this.collection.length>0) {
-            this.ui.paginator.append(paginator.render().$el);
             this.ui.grid.append(grid.render().$el);
+            this.ui.paginator.append(paginator.render().$el);
         }
     }
 });
-
-View.Panel = Marionette.ItemView.extend({
-    template: PanelTpl,
-    initialize: function(options) {
-        console.log('panel is initialize');
-    },
-    onRender: function(e) {
-        console.log('panel',this.$el);
-    },
-    events: {
-        'submit #filter-form': 'filterItems', //do next: for this, I want to search remotely
-        'keyup #filter-form input': 'filterItems' //for this, I want to filter current collection on local
-    },
-    triggers: {
-        'click .js-new': 'item:new',
-        'click .js-save': 'item:save',
-        'click .js-mass-delete': 'item:mass:delete'
-    },
-    config: {
-        searchTimeout: {},
-        searchDelay: 300
-    },
-    filterItems: function (e) {
-        //only trigger the filter when user stop typing for a certain of time
-        e.preventDefault();
-        var self = this;
-        clearTimeout(this.config.searchTimeout);
-        this.config.searchTimeout = setTimeout(function() {
-            var criterion = this.$(".js-filter-criterion").val();
-            self.trigger("item:filter", criterion);
-            console.log("panel:item:filter is triggered");
-        }, this.config.searchDelay);
-    },
-});
-
 
 View.Layout = Marionette.LayoutView.extend({
     template: LayoutTpl,

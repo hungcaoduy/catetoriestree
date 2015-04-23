@@ -71,25 +71,30 @@ app.get('/api/items/:id', function(request, response) {
 });
 //Update a item
 app.put( '/api/items/:id', function( request, response ) {
-    console.log( 'Updating item ' + request.body.title );
-    return ItemModel.findById( request.params.id, function( err, item ) {
-        item.title = request.body.title;
-        item.description = request.body.description;
-        item.effectiveDate = request.body.effectiveDate;
-        item.keywords = [];//request.body.keywords;
-        item.createdDate = new Date();
-        item.createdBy = 'Unknown';
-        item.updatedDate = new Date();
-        item.updatedBy = 'Unknown';
-        return item.save( function( err ) {
-            if( !err ) {
-                console.log( 'item updated' );
-            } else {
-                console.log("updating ", item, " got error ", err);
-            }
-            return response.send( item );
+    try {
+        return ItemModel.findById( request.params.id, function( err, item ) {
+            item.title = request.body.title;
+            item.description = request.body.description;
+            item.effectiveDate = request.body.effectiveDate;
+            item.keywords = [];//request.body.keywords;
+            item.createdDate = new Date();
+            item.createdBy = 'Unknown';
+            item.updatedDate = new Date();
+            item.updatedBy = 'Unknown';
+            return item.save( function( err ) {
+                if( !err ) {
+                    console.log( 'item updated' );
+                } else {
+                    console.log("updating ", item, " got error ", err);
+                }
+                return response.send( item );
+            });
         });
-    });
+    } catch (exeption) {
+        console.log('something went wrong');
+    } finally {
+        console.log( 'Updating item ' + request.body );
+    }
 });
 //Delete a item
 app.delete( '/api/items/:id', function( request, response ) {
