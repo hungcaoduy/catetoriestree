@@ -3,6 +3,7 @@ var ItemRowTpl = require('./templates/itemRow.jade');
 var ItemTableTpl = require('./templates/itemTable.jade');
 var LayoutTpl = require('./templates/layout.jade');
 var GridTpl = require('./templates/grid.jade');
+// var Backgrid = require('backgrid.paginator');
 var View = {};
 View.Item = Marionette.ItemView.extend({
     template: ItemRowTpl,
@@ -29,7 +30,7 @@ View.Item = Marionette.ItemView.extend({
     },
     serializeData: function() {
         var moment = require('moment');
-        var options = require('scripts/apps/config/options');
+        var options = require('scripts/common/config/options');
         var data = Backbone.Marionette.ItemView.prototype.serializeData.apply(this, arguments);
         data.effectiveDate = moment.utc(data.effectiveDate).local().format(options.dateFormat);
         return data;

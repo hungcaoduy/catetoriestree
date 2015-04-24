@@ -1,5 +1,5 @@
-Options = require('../apps/config/options');
-configureStorage = require('../apps/config/storage/localstorage');
+Options = require('scripts/common/config/options');
+configureStorage = require('scripts/common/config/storage/localstorage');
 // itemChannel = require('../common/channels');
 var itemChannel = require('../common/channels').itemDataChannel;
 

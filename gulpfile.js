@@ -190,7 +190,8 @@ gulp.task('vendor-scripts', function() {
         paths.vendor + 'scripts/backbone.syphon.js',
         paths.vendor + 'scripts/backbone.picky.js',
         paths.vendor + 'scripts/backbone.localStorage.js',
-        paths.vendor + 'backgrid/lib/backgrid.js',
+        // paths.vendor + 'backgrid/lib/backgrid.js',
+        paths.vendor + 'scripts/shim.js',
         paths.vendor + 'backgrid-paginator/backgrid-paginator.js',
     ])
     .pipe(plumber())
