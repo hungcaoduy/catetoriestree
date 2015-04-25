@@ -59,7 +59,7 @@ var b = watchify(browserify(opts)
         .plugin(pathmodify(), {mods: [
         // Make code like `require('app/something')` act like
         // `require('/somedir/src/something')`
-        pathmodify.mod.dir('scripts', paths.src + 'scripts')
+        pathmodify.mod.dir('scripts/', paths.base)
         ]})
     );
 
