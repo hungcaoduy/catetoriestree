@@ -1,4 +1,5 @@
 
+var moment = require('moment');
 var LoadingTpl = require('./templates/loading');
 var FormTpl = require('./templates/form');
 var View = {};
@@ -82,6 +83,9 @@ View.Form = Marionette.ItemView.extend({
 
         clearFormErrors();
         _.each(errors, markErrors);
-    }
+    },
+    onAttach: function(e) {
+        // $('#effectiveDate').datepicker({dateFormat: 'dd/mm/yy'});   
+    }    
 });
 module.exports = View;

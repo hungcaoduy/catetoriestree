@@ -192,6 +192,7 @@ gulp.task('vendor-scripts', function() {
         paths.vendor + 'scripts/backbone.localStorage.js',
         paths.node + 'backgrid/lib/backgrid.js',
         paths.node + 'backgrid-paginator/backgrid-paginator.js',
+        paths.node + 'moment.js',
     ])
     .pipe(plumber())
     .pipe(sourcemaps.init())
