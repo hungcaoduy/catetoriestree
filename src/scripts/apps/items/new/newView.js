@@ -5,4 +5,4 @@ module.exports = {
         title: 'New Item',
         // template: ItemFormTpl,
 	})
-}
+};

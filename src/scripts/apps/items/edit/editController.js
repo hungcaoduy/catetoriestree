@@ -14,6 +14,7 @@ var Controller = {
                 });
                 itemView.on('item:save', function(data) {
                     data.model.set(data.data);
+                    console.log('data to be saved:', data);
                     data.model.save();
                 });
             }

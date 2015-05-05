@@ -12,9 +12,14 @@ module.exports = {
                     model: item
                 });
                 itemView.on('item:save', function(data) {
-                    console.log('data to save ', data);
                     data.model.set(data.data);
                     data.model.save();
+
+                    var fetchAnotherItem = itemDataChannel.reqres.request("item:entity:new");
+                    $.when(fetchAnotherItem).done(function(anotherItem) {
+                        itemView.model = anotherItem;
+                        itemView.render();
+                    });
                 });
                 globalItemChannel.commands.execute('show:dialog', itemView);
             } else {

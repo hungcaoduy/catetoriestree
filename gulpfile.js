@@ -59,7 +59,7 @@ var b = watchify(browserify(opts)
         .plugin(pathmodify(), {mods: [
         // Make code like `require('app/something')` act like
         // `require('/somedir/src/something')`
-        pathmodify.mod.dir('scripts', paths.src + 'scripts')
+        pathmodify.mod.dir('scripts/', paths.base)
         ]})
     );
 
@@ -154,8 +154,8 @@ gulp.task('vendor-styles', function() {
       paths.vendor + 'styles/jquery-ui.structure.css',
       paths.vendor + 'styles/jquery-ui.css',
       paths.vendor + 'styles/jquery-ui.theme.css',
-      paths.node + 'backgrid/lib/backgrid.css',
-      paths.node + 'backgrid-paginator/backgrid-paginator.css',
+      paths.vendor + 'backgrid/lib/backgrid.css',
+      paths.vendor + 'backgrid-paginator/backgrid-paginator.css',
       paths.vendor + 'styles/bootstrap-theme.css.map',
       paths.vendor + 'styles/bootstrap-theme.css',
       paths.vendor + 'styles/bootstrap.css',
@@ -178,14 +178,14 @@ gulp.task('vendor-styles', function() {
 
 gulp.task('vendor-scripts', function() {
   stream = gulp.src([
-//      'backbone', 'backbone.marionette',
         paths.vendor + 'scripts/jquery.js',
-        paths.vendor + 'scripts/jquery-dateFormat.js',
         paths.vendor + 'scripts/jquery-ui.js',
         paths.vendor + 'scripts/underscore.js',
         paths.vendor + 'scripts/backbone.js',
         paths.vendor + 'scripts/backbone.paginator.js',
         paths.vendor + 'scripts/backbone.marionette.js',
+        // paths.vendor + 'scripts/jquery-dateFormat.js',//use moment instead
+       'moment',
         paths.vendor + 'scripts/bootstrap.js',
         paths.vendor + 'scripts/backbone.syphon.js',
         paths.vendor + 'scripts/backbone.picky.js',
