@@ -35,7 +35,10 @@ App.Router = Marionette.AppRouter.extend({
         'items': 'listItems',
         'items/new': 'newItem',
         'items/:id': 'showItem',
-        'items/:id/edit': 'editItem'
+        'items/:id/edit': 'editItem',
+        'register': 'showRegister',
+        'login': 'showLogin',
+        'forgotpassword': 'showForgotpassword'
     },
     onRoute: function(name, path, arguments) {
         console.log('name, path, arguments:', name, path, arguments);
@@ -58,6 +61,21 @@ var API = {
     newItem: function() {
         var newController = require('scripts/apps/items/new/newController');
         executeAction(newController.newItem);
+    },
+    showRegister: function() {
+        var RegisterView = require('scripts/apps/authentication/registerView');
+        var rview = new RegisterView();
+        globalItemChannel.commands.execute('show:dialog', rview);
+    },
+    showLogin: function() {
+        var LoginView = require('scripts/apps/authentication/loginView');
+        var lview = new LoginView();
+        globalItemChannel.commands.execute('show:dialog', lview);
+    },
+    showForgotpassword: function() {
+        var ForgotPasswordView = require('scripts/apps/authentication/forgotPasswordView');
+        var fview = new ForgotPasswordView();
+        globalItemChannel.commands.execute('show:dialog', fview);
     }
 };
 

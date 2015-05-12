@@ -172,7 +172,6 @@ View.Panel = Marionette.ItemView.extend({
             console.log("panel:item:filter is triggered");
         }, this.config.searchDelay);
     },
->>>>>>> f1aebc9f67a3e58e077d1159ee416c3b0b55dc47
 });
 
 //list---------------

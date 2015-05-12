@@ -3,9 +3,24 @@ var application_root = __dirname,
 express = require( 'express' ), //Web framework
 path = require( 'path' ), //Utilities for dealing with file paths
 mongoose = require( 'mongoose' ); //MongoDB integration
+
+var nodemailer = require('nodemailer');
+var MemoryStore = require('connect').session.MemoryStore;
+var session = require('express-session');
 //Create server
 var app = express();
 // Configure server
+//to handdle session
+app.use(express.cookieParser());
+app.use(session({
+    // genid: function(request) {
+    //     return genuuid();
+    // },
+    resave: false,
+    saveUninitialized: false,
+    secret: 'keyboard',
+    //store: new MemoryStore()
+}));
 //parses request body and populates request.body
 app.use( express.bodyParser() );
 //checks request.body for HTTP method overrides
@@ -18,8 +33,17 @@ console.log(staticContentPath);
 app.use( express.static( staticContentPath ) );
 //Show all errors in development
 app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
-// app.configure( function() {
-// });
+//get models from external files
+var config = {
+    mail: require('./config/mail')
+}
+
+var User = require('./models/user')(config, mongoose, nodemailer);
+var ItemModel = require('./models/item')(mongoose);
+var UserModel = User.model;
+//connect to database
+mongoose.connect('mongodb://localhost/mylinks_database');
+
 //Start server
 var port = 4711;
 app.listen( port, function() {
@@ -110,25 +134,66 @@ app.delete( '/api/items/:id', function( request, response ) {
         });
     });
 });
-//connect to database
-mongoose.connect('mongodb://localhost/mylinks_database');
 
-//schemas
-var Keywords = new mongoose.Schema({
-    keyword: String
-});
-var Item = new mongoose.Schema({
-    title: String,
-    description: String,
-    url: String,
-    //image: String,
-    keywords: [Keywords],
-    effectiveDate: Date,
-    createdDate: Date,
-    createdBy: String,
-    updatedDate: Date,
-    updatedBy: String
+//Register
+app.post('/register', function(request, response) {
+    
+    var firstName = request.param('firstName', ''),
+        lastName = request.param('lastName', ''),
+        email = request.param('email', ''),
+        password = request.param('password', null);
+
+    if (!email || !password ){
+        response.send(400);
+        return;
+    };
+    User.register(email, password, firstName, lastName);
+    response.send(200);
+    console.log('get a register of ', firstName + ' - ' + lastName);
 });
 
-//models
-var ItemModel = mongoose.model('Item',Item);
+//Login
+app.post('/login', function(request, response){
+    var email = request.param('email', null),
+        password = request.param('password', null);
+
+    if (!email || email.length < 1 || !password || password.length < 1) {
+        response.send(400);
+        return;
+    };
+
+    User.login(email, password, function(user) {
+        if (!user) {
+            response.send(401);
+            return;
+        };
+        console.log('login was successful', request);
+        request.session.loggedIn = true;
+        request.session.userId = user._id;
+        response.send(200);
+    })
+});
+//forgot password
+app.post('/forgotpassword', function(request, response) {
+    var email = request.param('email', null),
+        hostname = request.headers.host,
+        resetPasswordUrl = 'http://' + hostname + '/resetPassword';
+    
+    if (!email || email.length < 1) {
+        response.send(400);
+        return;
+    }
+    console.log('receiving a forgotPassword request');
+    User.forgotPassword(email, resetPasswordUrl, function(success) {
+        if (success) {
+            response.send(200);
+        } else {
+            response.send(404);
+        }
+    });
+});
+
+app.get('/resetPassword', function(request, response) {
+    var userId = request.param('user', null);
+    response.render('resetPassword.jade', {locals: {userId: userId}});
+});
