@@ -135,22 +135,9 @@ app.delete( '/api/items/:id', function( request, response ) {
     });
 });
 
+var auth = require('./handlers/authentication.js')(User);
 //Register
-app.post('/register', function(request, response) {
-    
-    var firstName = request.param('firstName', ''),
-        lastName = request.param('lastName', ''),
-        email = request.param('email', ''),
-        password = request.param('password', null);
-
-    if (!email || !password ){
-        response.send(400);
-        return;
-    };
-    User.register(email, password, firstName, lastName);
-    response.send(200);
-    console.log('get a register of ', firstName + ' - ' + lastName);
-});
+app.post('/register', auth.register);
 
 //Login
 app.post('/login', function(request, response){
