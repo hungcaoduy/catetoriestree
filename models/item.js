@@ -1,5 +1,6 @@
-module.exports = function(mongoose) {
+module.exports = function() {
 	//schemas
+	mongoose = require( 'mongoose' );
 	var Keywords = new mongoose.Schema({
 	    keyword: String
 	});
