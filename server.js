@@ -16,8 +16,8 @@ var resource = require('express-resource');
 //Create server
 var app = express();
 
-//to handdle session
-app.use(express.cookieParser());
+app.use(express.cookieParser());//to handdle session. This must be loaded before router middleware.
+
 app.use(session({
     // genid: function(request) {
     //     return genuuid();
@@ -28,10 +28,10 @@ app.use(session({
     //store: new MemoryStore()
 }));
 
-//parses request body and populates request.body
+//parses request body and populates request.body. Load this before the router middleware
 app.use( express.bodyParser() );
 
-//checks request.body for HTTP method overrides
+//checks request.body for HTTP method overrides. This should be loaded after bodyParser but befor Router middleware
 app.use( express.methodOverride() );
 
 //perform route lookup based on URL and HTTP method

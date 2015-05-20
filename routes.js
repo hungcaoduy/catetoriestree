@@ -11,4 +11,9 @@ module.exports = function(app, config, mongoose, nodemailer) {
 	app.post('/forgotpassword', auth.forgotpassword);
 	app.get('/resetPassword', auth.resetPassword);
 
+	
+	app.get('/', function(req, res){
+	  res.render('index.jade');
+	});
+
 };

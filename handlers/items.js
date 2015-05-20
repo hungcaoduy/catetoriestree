@@ -1,16 +1,33 @@
 //a resourceful routing
 module.exports = function(mongoose) {
 	var ItemModel = require('../models/item')();
+	var ensureAuthenticated = function(request, response) {
+		console.log('check authenticated 1');
+		if (!request.session.loggedIn) {
+			console.log('will redirect');
+			response.redirect('http://localhost:4711/#login');
+		}
+		console.log('check authenticated 2');
+		return request.session.loggedIn;
+	};
 	return {
 		//get items
 		index: function(request, response) {
-		    return ItemModel.find(null, null, {skip: 0, limit: 100}, function(err, items) {
-		        if (!err) {
-		            return response.send(items);
-		        } else {
-		            return console.log(err);
-		        }
-		    });
+
+			// if (ensureAuthenticated(request, response)) {
+			if (!request.session.loggedIn) {
+				console.log('need to be logged');
+				response.send(401);
+			} else {
+				console.log('item listing');
+			    return ItemModel.find(null, null, {skip: 0, limit: 100}, function(err, items) {
+			        if (!err) {
+			            return response.send(items);
+			        } else {
+			            return console.log(err);
+			        }
+			    });
+			}
 		},
 		//insert a new item
 		new: function(request, response) {
