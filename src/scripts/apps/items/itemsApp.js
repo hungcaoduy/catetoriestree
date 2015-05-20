@@ -138,13 +138,11 @@ App.addInitializer(function() {
 App.on('start', function(){
     if(Backbone.history){
         Backbone.history.start();
-        if(App.getCurrentRoute() === ''){
-            globalItemChannel.commands.execute('list:items');
-
-        }
-
-        var header = require('scripts/apps/header/list/listController');
-        header.listHeader();
+        // if(App.getCurrentRoute() === ''){
+        //     globalItemChannel.commands.execute('list:items');
+        // }
+        // var header = require('scripts/apps/header/list/listController');
+        // header.listHeader();
     }
 });
 

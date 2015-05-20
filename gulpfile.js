@@ -157,8 +157,8 @@ gulp.task('vendor-styles', function() {
       paths.node + 'backgrid/lib/backgrid.css',
       paths.node + 'backgrid-paginator/backgrid-paginator.css',
       paths.vendor + 'styles/bootstrap-theme.css.map',
-      paths.vendor + 'styles/bootstrap-theme.css',
-      paths.vendor + 'styles/bootstrap.css',
+      paths.vendor + 'bootstrap/css/bootstrap.css',
+      paths.vendor + 'bootstrap/css/bootstrap-theme.css',
     ])
     .pipe(plumber())
     .pipe(sourcemaps.init())
@@ -192,6 +192,7 @@ gulp.task('vendor-scripts', function() {
         paths.node + 'backgrid/lib/backgrid.js',
         paths.node + 'backgrid-paginator/backgrid-paginator.js',
         paths.node + 'moment.js',
+        paths.vendor + 'bootstrap/js/bootstrap.js',
     ])
     .pipe(plumber())
     .pipe(sourcemaps.init())
