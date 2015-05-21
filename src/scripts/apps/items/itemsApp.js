@@ -15,6 +15,7 @@ App.addRegions({
 });
 
 App.navigate = function(route,  options){
+    console.log('route: ', route);
     options || (options = {});
     if (!options.trigger) _.extend(options, {trigger: true});
     Backbone.history.navigate(route, options);
@@ -44,11 +45,104 @@ App.Router = Marionette.AppRouter.extend({
         console.log('name, path, arguments:', name, path, arguments);
     }
 });
+
+var globalItemChannel = window.globalItemChannel = require('../../common/channels').globalItemChannel;
+
+globalItemChannel.commands.setHandler('list:items', function() {
+    App.navigate('items');
+});
+
+
+globalItemChannel.commands.setHandler('show:item', function(item) {
+    var id = item.id;
+    App.navigate('items/' + id);
+});
+
+globalItemChannel.commands.setHandler('edit:item', function(item) {
+    var id = item.id;
+    App.navigate('items/' + id + '/edit');
+});
+
+globalItemChannel.commands.setHandler('new:item', function() {
+    console.log('I catch item:new, App say');
+    App.navigate('items/new');
+});
+
+globalItemChannel.commands.setHandler('save:item', function(args) {
+    args.model.set(args.data);
+    args.model.save();
+});
+
+
+globalItemChannel.commands.setHandler('show:main', function(layoutView) {
+    // console.log('about to show ', layoutView);
+    App.mainRegion.show(layoutView);
+});
+
+globalItemChannel.commands.setHandler('show:dialog', function(view) {
+    console.log('about to show dialog');
+    App.dialogRegion.show(view);
+});
+
+globalItemChannel.commands.setHandler('show:header', function(view) {
+    console.log('about to show header');
+    App.headerRegion.show(view);
+});
+
+globalItemChannel.commands.setHandler('go:back', function() {
+    window.history.back();
+});
+
+globalItemChannel.commands.setHandler('go:to', function(url) {
+    checkLogin(whatRoute);
+});
+
+globalItemChannel.commands.setHandler('go:authenticated', function(authenticated) {
+    whatRoute(authenticated);
+});
+
+App.addInitializer(function() {
+    new App.Router({
+        controller: API
+    });
+});
+
+App.on('start', function(){
+    console.log('App starting');
+    checkLogin(whatRoute);
+    if (Backbone.history && !Backbone.History.started) Backbone.history.start({pushstate: true});
+});
+
+var checkLogin = function (callback) {
+    $.get('/authenticated', function (data) {
+        // console.log('get:', data);
+    }).done(function(data) {
+        console.log('done', data);
+        callback(true);
+    }).fail(function(err) {
+        console.log('not authenticated!');
+        callback(false);
+    }).always(function() {
+        console.log('good bye');
+    });
+}
+
+var whatRoute = function(authenticated) {
+    if (authenticated)     {
+        // window.location.hash = 'index';
+        globalItemChannel.commands.execute('list:items');
+    } else {
+        // window.location = 'http://localhost:4711/home';
+    }
+}
+
 var API = {
     listItems: function(criterion) {
         var ListController = require('scripts/apps/items/list/listController');
         executeAction(ListController.listItems, criterion);
-        // executeAction(ListController.gridItems, criterion);
+
+        // var header = require('scripts/apps/header/list/listController');
+        // header.listHeader();
     },
     showItem: function(id) {
         var showController = require('scripts/apps/items/show/showController');
@@ -79,71 +173,5 @@ var API = {
     }
 };
 
-var globalItemChannel = window.globalItemChannel = require('../../common/channels').globalItemChannel;
-
-globalItemChannel.commands.setHandler('list:items', function() {
-    App.navigate('items');
-});
-
-
-globalItemChannel.commands.setHandler('show:item', function(item) {
-    var id = item.id;
-    App.navigate('items/' + id);
-    // API.showItem(id);
-});
-
-globalItemChannel.commands.setHandler('edit:item', function(item) {
-    var id = item.id;
-    App.navigate('items/' + id + '/edit');
-});
-
-globalItemChannel.commands.setHandler('new:item', function() {
-    console.log('I catch item:new, App say');
-    App.navigate('items/new');
-    // API.newItem();
-});
-
-globalItemChannel.commands.setHandler('save:item', function(args) {
-    args.model.set(args.data);
-    args.model.save();
-});
-
-
-globalItemChannel.commands.setHandler('show:main', function(layoutView) {
-    // console.log('about to show ', layoutView);
-    App.mainRegion.show(layoutView);
-});
-
-globalItemChannel.commands.setHandler('show:dialog', function(view) {
-    console.log('about to show dialog');
-    App.dialogRegion.show(view);
-});
-
-globalItemChannel.commands.setHandler('show:header', function(view) {
-    console.log('about to show header');
-    App.headerRegion.show(view);
-});
-
-globalItemChannel.commands.setHandler('go:back', function() {
-    window.history.back();
-});
-
-App.addInitializer(function() {
-    new App.Router({
-        controller: API
-    });
-});
-
-
-App.on('start', function(){
-    if(Backbone.history){
-        Backbone.history.start();
-        // if(App.getCurrentRoute() === ''){
-        //     globalItemChannel.commands.execute('list:items');
-        // }
-        // var header = require('scripts/apps/header/list/listController');
-        // header.listHeader();
-    }
-});
 
 module.exports = App;

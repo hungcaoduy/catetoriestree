@@ -10,14 +10,8 @@ var LoginView = Marionette.ItemView.extend({
 			email: $('input[name=email]').val(),
 			password: $('input[name=password]').val()
 		}, function(data) {
-			console.log(data);
-			// App.start();
-			Backbone.history.navigate('http://localhost:4711/home');
-	        /*var header = require('scripts/apps/header/list/listController');
-	        header.listHeader();
-	        globalItemChannel.commands.execute('list:items');*/
-
-
+			globalItemChannel.commands.execute('go:authenticated', true);
+			this.trigger('dialog:close');
 		}).error(function() {
 			$('#error').text('Unable to login');
 			$('#error').slideDown();

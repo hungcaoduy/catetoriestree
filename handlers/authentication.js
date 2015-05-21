@@ -37,6 +37,14 @@ module.exports = function(User) {
             })
         },
 
+        logout: function(request, response) {
+            if (request.session.loggedIn) {
+                request.session.destroy(function() {
+                    response.send('session deleted');
+                });
+            }
+        },
+
         forgotpassword: function(request, response) {
             var email = request.param('email', null),
                 hostname = request.headers.host,
@@ -59,6 +67,14 @@ module.exports = function(User) {
         resetPassword: function(request, response) {
             var userId = request.param('user', null);
             response.render('resetPassword.jade', {locals: {userId: userId}});
+        },
+
+        authenticated: function(req, res) {
+            if ( req.session.loggedIn ) {
+                res.send(200);
+            } else {
+                res.send(401);
+            }
         }
     }
 }

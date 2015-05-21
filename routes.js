@@ -10,8 +10,9 @@ module.exports = function(app, config, mongoose, nodemailer) {
 	app.post('/login', auth.login);
 	app.post('/forgotpassword', auth.forgotpassword);
 	app.get('/resetPassword', auth.resetPassword);
+	app.get('/authenticated', auth.authenticated);
+	app.get('/logout', auth.logout);
 
-	
 	app.get('/', function(req, res){
 	  res.render('index.jade');
 	});
