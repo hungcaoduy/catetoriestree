@@ -17,7 +17,6 @@ View.Header = Marionette.ItemView.extend({
 
     onRender: function(){
         if(this.model.selected){
-            // add class so Bootstrap will highlight the active entry in the navbar
             this.$el.addClass('active');
         }
     }
@@ -25,7 +24,6 @@ View.Header = Marionette.ItemView.extend({
 
 View.Headers = Marionette.CompositeView.extend({
     template: listTpl,
-    className: 'navbar navbar-inverse navbar-fixed-top',
     childView: View.Header,
     childViewContainer: 'ul',
 
@@ -38,5 +36,6 @@ View.Headers = Marionette.CompositeView.extend({
         this.trigger('brand:clicked');
     }
 });
+
 
 module.exports = View;

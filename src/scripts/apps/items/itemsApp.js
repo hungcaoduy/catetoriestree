@@ -11,7 +11,9 @@ App.addRegions({
     mainRegion: '#main-region',
     dialogRegion: Dialog.extend({
         el: '#dialog-region'
-    })
+    }),
+    utilityReion: '#utilitymenu-region',
+    userRegion: '#user-region'
 });
 
 App.navigate = function(route,  options){
@@ -27,7 +29,6 @@ App.getCurrentRoute = function(){
 
 var executeAction = function(action, arg){
     action(arg);
-    // App.execute('set:active:header', 'items');
 };
 
 
@@ -89,6 +90,14 @@ globalItemChannel.commands.setHandler('show:header', function(view) {
     App.headerRegion.show(view);
 });
 
+globalItemChannel.commands.setHandler('show:utility', function(view) {
+    App.utilityReion.show(view);
+});
+
+globalItemChannel.commands.setHandler('show:user', function(view) {
+    App.userRegion.show(view);
+});
+
 globalItemChannel.commands.setHandler('go:back', function() {
     window.history.back();
 });
@@ -109,7 +118,7 @@ App.addInitializer(function() {
 
 App.on('start', function(){
     console.log('App starting');
-    checkLogin(whatRoute);
+    // checkLogin(whatRoute);
     if (Backbone.history && !Backbone.History.started) Backbone.history.start({pushstate: true});
 });
 
@@ -127,22 +136,28 @@ var checkLogin = function (callback) {
     });
 }
 
+var updateHeader = function(authenticated) {
+    if (authenticated) {
+        var header = require('scripts/common/action/listController');
+        // header.list('action:entities','show:header');
+        header.list('filter:entities','show:utility');        
+    }
+}
+
 var whatRoute = function(authenticated) {
     if (authenticated)     {
         // window.location.hash = 'index';
         globalItemChannel.commands.execute('list:items');
     } else {
-        // window.location = 'http://localhost:4711/home';
+        window.location = 'http://localhost:4711/home';
     }
+    updateHeader(authenticated);
 }
 
 var API = {
     listItems: function(criterion) {
         var ListController = require('scripts/apps/items/list/listController');
         executeAction(ListController.listItems, criterion);
-
-        // var header = require('scripts/apps/header/list/listController');
-        // header.listHeader();
     },
     showItem: function(id) {
         var showController = require('scripts/apps/items/show/showController');
@@ -164,7 +179,7 @@ var API = {
     showLogin: function() {
         var LoginView = require('scripts/apps/authentication/loginView');
         var lview = new LoginView();
-        globalItemChannel.commands.execute('show:dialog', lview);
+        globalItemChannel.commands.execute('show:main', lview);
     },
     showForgotpassword: function() {
         var ForgotPasswordView = require('scripts/apps/authentication/forgotPasswordView');

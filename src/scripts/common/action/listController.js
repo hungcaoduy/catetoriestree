@@ -1,27 +1,24 @@
-var headerChannel = require('scripts/entities/header');
+var headerChannel = require('scripts/entities/action');
 var globalItemChannel = window.globalItemChannel;
 var View = require('./listView');
 module.exports = {
-	listHeader: function() {
-        var links = headerChannel.reqres.request('header:entities');
-        var headers = new View.Headers({collection: links});
+	list: function(listRequest, command2exec) {
+        var links = headerChannel.reqres.request(listRequest);
+        var listView = new View.Headers({collection: links});
 
-        headers.on('brand:clicked', function(){
+        listView.on('brand:clicked', function(){
             // App.trigger('items:list');
-            globalItemChannel.commands.execute('list:item');
-
+            // globalItemChannel.commands.execute('list:item');
         });
 
-        headers.on('childview:navigate', function(childView, model){
+        listView.on('childview:navigate', function(childView, model){
             var trigger = model.get('navigationTrigger');
-            // App.trigger(trigger);
             globalItemChannel.commands.execute(trigger);
         });
 
-        // App.headerRegion.show(headers);
-        globalItemChannel.commands.execute('show:header', headers);
+        globalItemChannel.commands.execute(command2exec, listView); //commands: 'show:header', 'show:filter'
 	},
-    setActiveHeader: function(headerUrl){
+    setActive: function(headerUrl){
         var links = headerChannel.reqres.request('header:entities');
 
         var headerToSelect = links.find(function(header){ return header.get('url') === headerUrl; });
