@@ -4,7 +4,8 @@
   "description": "up and runing fast",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/test.js",
+    "start": "node server"
   },
   "author": "hung.caoduy",
   "license": "ISC",
@@ -53,6 +54,9 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.0",
-    "express-resource": "~1.0.0"
+    "express-resource": "~1.0.0",
+    "chai": "~2.3.0",
+    "selenium-webdriver": "~2.45.1",
+    "chai-webdriver": "~1.1.1"
   }
 }
