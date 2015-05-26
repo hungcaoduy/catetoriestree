@@ -149,7 +149,7 @@ var whatRoute = function(authenticated) {
         // window.location.hash = 'index';
         globalItemChannel.commands.execute('list:items');
     } else {
-        window.location = 'http://localhost:4711/home';
+        // window.location = 'http://localhost:4711/home';
     }
     updateHeader(authenticated);
 }
